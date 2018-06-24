@@ -1,0 +1,138 @@
+{%extends "restaurant/header.html"%}
+
+{% block content %}
+ <!--<h1 style="margin-top: 0px;" align="center">政大人的地圖平台</h1>-->
+{% load staticfiles %}
+<!-- Photo Change -->	
+
+
+	<!-- First Container -->
+<div class="container-fluid bg-1 text-center" style="background-color:rgba(46, 191, 163, 0.22)">
+  <h3 class="margin" style="color:darkslategray">政大人的地圖平台</h3>
+  <div id="myCarousel" class="carousel slide" data-ride="carousel">
+<!-- Indicators -->
+	  <ol class="carousel-indicators">
+		<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+		<li data-target="#myCarousel" data-slide-to="1"></li>
+		<li data-target="#myCarousel" data-slide-to="2"></li>
+		<li data-target="#myCarousel" data-slide-to="3"></li>	
+		<li data-target="#myCarousel" data-slide-to="4"></li>
+		<li data-target="#myCarousel" data-slide-to="5"></li>		
+		<li data-target="#myCarousel" data-slide-to="6"></li>
+		<li data-target="#myCarousel" data-slide-to="7"></li>		
+		<li data-target="#myCarousel" data-slide-to="8"></li>
+		<li data-target="#myCarousel" data-slide-to="9"></li>
+	  </ol>
+
+<!-- Wrapper for slides -->	  
+<!-- style="width: 100%(full page); height: 300px; margin: 0px auto; -->
+	<div class="carousel-inner" role="listbox"  style="width: 100%; height: 300px; margin: 0px auto; ">
+		<div class="item active">
+		 <!-- alt="nccu1" if photo disappear -->
+		  <img src="{% static 'restaurant/img/nccu_sun.jpg' %}" alt="nccu_sun" style="width: 100%; height: 300px; margin: 0px auto; ">
+		</div>
+
+		<div class="item">
+		  <img src="{% static 'restaurant/img/nccu_ela.jpg' %}" alt="nccu_ela" style="width: 100%; height: 300px; margin: 0px auto; ">
+		</div>
+
+		<div class="item">
+		  <img src="{% static 'restaurant/img/nccu_building.jpg' %}" alt="nccu_building" style="width: 100%; height: 300px; margin: 0px auto; ">
+		</div>
+
+		<div class="item">
+		  <img src="{% static 'restaurant/img/nccu_light.jpg' %}" alt="nccu_light" style="width: 100%; height: 300px; margin: 0px auto; ">
+		</div>
+
+		<div class="item">
+		  <img src="{% static 'restaurant/img/nccu_night.jpg' %}" alt="nccu_night" style="width: 100%; height: 300px; margin: 0px auto; ">
+		</div>
+
+		<div class="item">
+		  <img src="{% static 'restaurant/img/nccu_roma.jpg' %}" alt="nccu_roma" style="width: 100%; height: 300px; margin: 0px auto; ">
+		</div>
+
+		<div class="item">
+		  <img src="{% static 'restaurant/img/nccu_seat.jpg' %}" alt="nccu_seat" style="width: 100%; height: 300px; margin: 0px auto; ">
+		</div>
+
+		<div class="item">
+		  <img src="{% static 'restaurant/img/nccu_star.jpg' %}" alt="nccu_star" style="width: 100%; height: 300px; margin: 0px auto; ">
+		</div>		
+
+		<div class="item">
+		  <img src="{% static 'restaurant/img/nccu_sunset.jpg' %}" alt="nccu_sunset" style="width: 100%; height: 300px; margin: 0px auto; ">
+		</div>
+
+		<div class="item">
+		  <img src="{% static 'restaurant/img/nccu_river.jpg' %}" alt="nccu_river" style="width: 100%; height: 300px; margin: 0px auto; ">
+		</div>			
+	</div>
+</div>
+
+</div>
+
+
+<!-- First Container (Grid) -->
+<div class="container-fluid bg-3 text-center">    
+  <h3 class="margin">政大生活圈</h3><br>
+  <div class="row">
+    <div class="col-sm-4">
+      <h4 class="margin">店家地圖</h4>
+      <p>此地圖涵蓋政大附近餐廳店家資訊<br>
+      您可以自由選擇喜歡的地圖圖層、觀看到菜單<br>
+      更可以給予店家評論!</p>
+      <a href='/restaurant/'><img src="{% static 'restaurant/images/food.jpg'%}" style="width:50% "></a>
+    </div>
+    <div class="col-sm-4"> 
+      <h4 class="margin">建物地圖</h4>
+      <p>此地圖涵蓋了政大校園內的建築<br>
+      您可以自由選擇地圖圖層，看到各時期政大的樣貌<br>
+      更可以搜尋到各建物歷史即包含系所資訊!</p>
+      <a href='/building/'><img src="{% static 'restaurant/images/building.jpg'%}" style="width:50% " alt="Image"></a>
+    </div>
+    <div class="col-sm-4"> 
+       <h4 class="margin">搜尋功能</h4>
+      <p>搜尋功能可以讓您搜尋餐廳店家的資訊<br>
+      您只需要輸入餐廳店家相關關鍵字<br>
+      即可搜尋到餐廳店家的所有資訊!</p>
+      <a href="/search/"><img src="{% static 'restaurant/images/search.jpg'%}" style="width:70%" alt="Image"></a>
+
+    </div>
+  </div>
+</div>
+
+<!-- Second Container -->
+<div class="container-fluid bg-2">
+  <h3 class="margin text-center" >如何使用地圖平台</h3>
+  <div class="row text-center">
+    <div class="col-sm-6">
+      <h4 class="margin ">店家地圖</h4>
+      <p>1.點選店家地圖，可以自由地選擇圖層。<br>
+      	2.觀看店家資訊及菜單，並可對各店家新增評論。 <br>
+		3.提供您增加新開幕之店家資訊。</p>
+  <br>
+      <h4 class="margin text-center">建物地圖</h4>
+      <p>1.點選建物地圖，呈現開放街圖為基底的校園地圖。<br>
+      	2.地圖圖層來自中研院古地圖,了解政大當時的樣貌。<br>
+		3.點選任一建築物即顯示大樓簡介及包含系所。<br>
+  <br>
+      <h4 class="margin text-center">搜尋功能</h4>
+      <p>1.輸入想要搜尋的店家名稱之關鍵字 。<br>
+   		 2.下方即會出現店家資訊並可得知位置。<br>
+      3.下拉後呈現各店家詳細資訊及店家照片。<br>
+	
+<br> 
+<br> 
+    </div>
+
+    <div class="col-sm-6"> 
+    <br>
+     <br>
+      <img src="{% static 'restaurant/images/Map_icon.png'%}" style="width:60%" alt="Image">
+      <br>
+
+    </div>
+</div>
+
+{% endblock %}	

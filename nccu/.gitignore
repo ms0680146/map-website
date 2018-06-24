@@ -1,0 +1,5 @@
+*.pyc
+*.png
+*.jpg
+elasticsearch-2.4.4
+db.sqlite3

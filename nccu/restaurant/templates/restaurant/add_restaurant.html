@@ -1,0 +1,46 @@
+{%extends "restaurant/header.html"%}
+
+{% block content %}
+<div style="top:-20px;" class="container-fluid">
+	<h1 class="text-info" >增加新的店家</h1>
+	<p class="text-info"  >---政大周邊新開幕店家</p>
+</div>
+<br>
+ <form method='POST' action=''> 
+	<div style="position:relative;top:-30px;font-size:20px;" class='container-fluid'>
+	    <div class='form-group col-lg-12'>
+	    	<label for="title">店家:</label>
+	    	<input type="text" class="form-control" name="name" placeholder="Name of your store" value="{{name}}">
+	  	</div>
+
+	  	<div class='form-group col-lg-12'>
+	    	<label for="title">電話:</label>
+	    	<input type="text" class="form-control" name="phone" placeholder="02-xxxxxxxx" value="{{phone_number}}">
+	  	</div>
+
+			
+	  	<div class='form-group col-lg-12'>
+	    	<label for="title">地址:</label>
+	    	<input type="text" class="form-control" name="address" placeholder="台北市文山區指南路二段64號" value="{{address}}">
+	  	</div>
+			
+
+	  	<div class='form-group col-lg-12'>
+	    	<label for="title">營業時間:</label>
+	    	<input type="text" class="form-control" name="opentime" placeholder="11:00–15:00, 17:00–20:30" value="{{opentime}}">
+	  	</div>
+			
+	    <div class='form-group col-lg-12'>
+			<input type='hidden' name='ok' value='yes'>
+	  		<input type='submit' class='btn btn-primary' value='Submit' >
+	  	</div>
+	  </div>
+
+</form>
+
+{% for e in error %}
+	 <p class="text-danger" >填錯囉!!!</p>
+	{{e}}
+{% endfor %}
+
+{%endblock%}

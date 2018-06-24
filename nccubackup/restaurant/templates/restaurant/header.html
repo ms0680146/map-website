@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+
+<head>
+	<title>NCCU|校園地圖</title>
+	<meta charset="utf-8" />
+	{% load staticfiles %}
+	<link rel="stylesheet" href="{% static 'restaurant/css/bootstrap.min.css' %}" type = "text/css"/>
+    <script src="{% static 'restaurant/js/jquery.min.js' %}"></script>
+    <script src="{% static 'restaurant/js/bootstrap.min.js' %}"></script>
+    <script src="{% static 'restaurant/js/bootstrap.js' %}"></script>	
+	<meta name="viewport" content = "width=device-width, initial-scale=1.0">
+	<link rel="stylesheet" href="https://unpkg.com/leaflet@1.0.2/dist/leaflet.css" />
+	<script src="https://unpkg.com/leaflet@1.0.2/dist/leaflet.js"></script>
+	<link rel="stylesheet" href="http://watson.lennardvoogdt.nl/Leaflet.awesome-markers/dist/leaflet.awesome-markers.css">
+	<link rel="stylesheet" href="http://netdna.bootstrapcdn.com/font-awesome/4.0.0/css/font-awesome.css">
+	<script src="{% static 'restaurant/js/leaflet.awesome-markers.js' %}"></script>
+   
+	<meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="initial-scale=1,user-scalable=no,maximum-scale=1,width=device-width">
+    <meta name="mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <link rel="stylesheet" href="{% static 'restaurant/resources/ol.css' %}" />
+    <link rel="stylesheet" href="{% static 'restaurant/resources/ol3-layerswitcher.css' %}" />
+    <link rel="stylesheet" href="{% static 'restaurant/resources/qgis2web.css' %}"/>
+    <link rel="stylesheet" href="http://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css">
+
+	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.0/jquery.min.js"></script>
+	<script src="{% static 'restaurant/js/leaflet-osm.js' %}"></script>
+	<script src="{% static 'restaurant/js/nlsc.js' %}"></script>
+	<style>
+		html,
+		body {
+		  font-family:微軟正黑體;
+		  height:150%
+		}
+	</style>
+        <style>
+        .geolocate {
+            top: 65px;
+            left: .5em;
+        }
+        .ol-touch .geolocate {
+            top: 80px;
+        }
+        </style>
+		<link href="http://cdn.jsdelivr.net/openlayers.geocoder/latest/ol3-geocoder.min.css" rel="stylesheet">
+        <style>
+			html, body, #map {
+				width: 100%;
+				height: 100%;
+				padding: 0;
+				margin: 0;
+			}
+        </style>
+
+</head>
+     
+
+<body class="body" style="background-color:#f6f6f6">
+	<div class="container-fluid" style="min-height:150%; ">
+<!-- First row -->
+		<div class="row" id="nccu">
+			<div class="col-md-1">
+				<a href="http://www.nccu.edu.tw/"><img src="{% static 'restaurant/img/NCCU_Name.png' %}" class="responsive-img" style='max-height:60px;' alt="face"></a>
+			</div>
+			  
+			<div class="col-md-4" style="float:right" >
+			<ul class="nav navbar-nav">
+			<br>
+			 <!-- Home -->
+				<li class="active" >
+					<a href='/'>首頁</a>
+				</li>
+             <!-- End Home -->
+			 <!--Food Map -->
+				<li class="">
+					<a href='/restaurant/'>美食地圖</a>
+				</li>
+             <!-- End Food Map -->
+			 <!--Bus Map -->
+				<li class="">
+					<a href='/bus/'>公車地圖</a>
+				</li>
+             <!-- End Bus Map -->
+			 <!--Building Map -->
+				<li class="">
+					<a href='/building/'>建物地圖</a>
+				</li>
+             <!-- End Building Map -->
+				<li class="">
+					<a href="http://www.nccu.edu.tw/">回政大</a>
+				</li>
+			</div>
+		</div>
+
+<!-- First row end -->
+<!-- Photo Change -->	
+
+	<div id="myCarousel" class="carousel slide" data-ride="carousel">
+<!-- Indicators -->
+	  <ol class="carousel-indicators">
+		<li data-target="#myCarousel" data-slide-to="0" class="active"></li>
+		<li data-target="#myCarousel" data-slide-to="1"></li>
+		<li data-target="#myCarousel" data-slide-to="2"></li>
+		<li data-target="#myCarousel" data-slide-to="3"></li>	
+		<li data-target="#myCarousel" data-slide-to="4"></li>
+		<li data-target="#myCarousel" data-slide-to="5"></li>		
+		<li data-target="#myCarousel" data-slide-to="6"></li>
+		<li data-target="#myCarousel" data-slide-to="7"></li>		
+		<li data-target="#myCarousel" data-slide-to="8"></li>
+		<li data-target="#myCarousel" data-slide-to="9"></li>
+	  </ol>
+
+<!-- Wrapper for slides -->	  <!-- style="width: 100%(full page); height: 300px; margin: 0px auto; -->
+	<div class="carousel-inner" role="listbox"  style="width: 100%; height: 300px; margin: 0px auto; ">
+		<div class="item active">
+		 <!-- alt="nccu1" if photo disappear -->
+		  <img src="{% static 'restaurant/img/nccu_sun.jpg' %}" alt="nccu_sun" style="width: 100%; height: 300px; margin: 0px auto; ">
+		</div>
+
+		<div class="item">
+		  <img src="{% static 'restaurant/img/nccu_ela.jpg' %}" alt="nccu_ela" style="width: 100%; height: 300px; margin: 0px auto; ">
+		</div>
+
+		<div class="item">
+		  <img src="{% static 'restaurant/img/nccu_building.jpg' %}" alt="nccu_building" style="width: 100%; height: 300px; margin: 0px auto; ">
+		</div>
+
+		<div class="item">
+		  <img src="{% static 'restaurant/img/nccu_light.jpg' %}" alt="nccu_light" style="width: 100%; height: 300px; margin: 0px auto; ">
+		</div>
+
+		<div class="item">
+		  <img src="{% static 'restaurant/img/nccu_night.jpg' %}" alt="nccu_night" style="width: 100%; height: 300px; margin: 0px auto; ">
+		</div>
+
+		<div class="item">
+		  <img src="{% static 'restaurant/img/nccu_roma.jpg' %}" alt="nccu_roma" style="width: 100%; height: 300px; margin: 0px auto; ">
+		</div>
+
+		<div class="item">
+		  <img src="{% static 'restaurant/img/nccu_seat.jpg' %}" alt="nccu_seat" style="width: 100%; height: 300px; margin: 0px auto; ">
+		</div>
+
+		<div class="item">
+		  <img src="{% static 'restaurant/img/nccu_star.jpg' %}" alt="nccu_star" style="width: 100%; height: 300px; margin: 0px auto; ">
+		</div>		
+
+		<div class="item">
+		  <img src="{% static 'restaurant/img/nccu_sunset.jpg' %}" alt="nccu_sunset" style="width: 100%; height: 300px; margin: 0px auto; ">
+		</div>
+
+		<div class="item">
+		  <img src="{% static 'restaurant/img/nccu_river.jpg' %}" alt="nccu_river" style="width: 100%; height: 300px; margin: 0px auto; ">
+		</div>			
+	</div>
+
+<!-- Left and right controls -->
+	  <a class="left carousel-control" href="#myCarousel" role="button" data-slide="prev">
+		<span class="glyphicon glyphicon-chevron-left" aria-hidden="true"></span>
+		<span class="sr-only">Previous</span>
+	  </a>
+	  <a class="right carousel-control" href="#myCarousel" role="button" data-slide="next">
+		<span class="glyphicon glyphicon-chevron-right" aria-hidden="true"></span>
+		<span class="sr-only">Next</span>
+	  </a>
+	</div>
+	
+<!-- End Photo Change -->	
+
+<!-- Third row -->
+
+	<div class="row">
+		<div class="col-md-2">
+		<br>
+<!-- Great, til you resize. -->
+<!--<div class="well bs-sidebar affix" id="sidebar" style="background-color:#fff">-->
+			<div class="well bs-sidebar" id="sidebar" style="background-color:#fff">
+			  <ul class="nav nav-pills nav-stacked">
+				<li><a href='/'>首頁</a></li>
+				<li><a href='/restaurant/'>美食地圖</a></li>
+				<li><a href='/bus/'>公車地圖</a></li>
+				<li><a href='/building/'>建物地圖</a></li>
+				<li><a href="http://www.nccu.edu.tw/">回政大</a></li>
+			  </ul>
+			</div> <!--well bs-sidebar affix-->
+		</div> <!--col-sm-2-->
+<!-- Main -->		  
+		<div class="col-sm-10">
+			<div class='container-fluid'>
+			<br><br>
+			   {% block content %}
+			   {% endblock %}	
+			</div>
+		</div>
+		</div> 
+<!-- Main End -->
+	</div>
+<!-- Third row end -->
+
+			<div id="footer">
+				<p>本網站著作權屬於<a href="http://www.nccu.edu.tw/">國立政治大學</a><br>地址：11605 臺北市文山區指南路二段64號<br></p>
+			</div>
+		<script src="{% static 'restaurant/resources/polyfills.js' %}"></script>
+        <script src="{% static 'restaurant/resources/ol.js' %}"></script>
+        <script src="{% static 'restaurant/resources/ol3-layerswitcher.js' %}"></script>
+		<script src="http://cdn.jsdelivr.net/openlayers.geocoder/latest/ol3-geocoder.js"></script>
+        <script src="{% static 'restaurant/layers/.js' %}"></script>
+        <script src="{% static 'restaurant/styles/_style.js' %}"></script>
+        <script src="{% static 'restaurant/layers/layers.js' %}"></script> 
+        <script src="{% static 'restaurant/resources/qgis2web.js' %}"></script>
+        <script src="{% static 'restaurant/resources/Autolinker.min.js' %}"></script>	
+</body>
+
+</html>

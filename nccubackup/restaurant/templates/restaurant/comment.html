@@ -1,0 +1,48 @@
+{%extends "restaurant/header.html"%}
+{% block content %}
+<!--comment.html-->
+<div class="container-fluid">
+	<h1 class="text-info" >{{ r.name }}</h1>
+	<p class="text-info"  >---給予一些評價</p>
+</div>
+<br>
+{% if r.comment_set.all %}
+<p>目前有 {{r.comment_set.all|length }} 則留言</p>
+
+<div class='col-lg-12 restaurant-nodule jumbotron'>
+	{% for c in r.comment_set.all %}
+	<p>使用者: <span class='user'>{{ c.user }}</span></p>
+	<p>評價: <span class='content'>{{ c.content }}</span></p>
+	<p>評價時間: <span class='time'>{{ c.date_time }}</span></p>
+	{% endfor %}
+</div>
+
+{% else %}
+<p>沒有任何評價</p>
+{% endif %} 
+<br>
+        <form method='post' action=''>
+			<div class='container-fluid'>
+	
+		  		<div class='form-group col-lg-12'>
+		    		<label for="user">使用者:</label>
+		    		<input type="text" class="form-control" name="user" placeholder="Ann" value="{{user}}">
+		  		</div>				
+		  		<div class='form-group col-lg-12'>
+		    		<label for="content">評價:</label>
+		    		<input type="text" class="form-control" name="content" placeholder="Say something" value="{{content}}">
+		  		</div>
+		   		 <div class='form-group col-lg-12'>
+		   		 	<input type="hidden" name="ok" value="yes">
+		  			<input type='submit' class='btn btn-primary' value='Submit' >
+		  		</div>
+
+	  			{% for e in error %}
+	 				<p class="text-danger" >填錯囉!!!</p>
+					{{e}}
+				{% endfor %}
+	  		</div>
+			
+				
+		</form>
+{%endblock%}

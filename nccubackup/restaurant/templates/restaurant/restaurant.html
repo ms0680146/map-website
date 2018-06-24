@@ -1,0 +1,213 @@
+{%extends "restaurant/header.html"%}
+
+{% block content %}
+<div id="map" style="width: 1000px; height: 500px;"></div>
+
+<script>
+	var nccuplaceByID={};
+	//take the argument from models.py
+	{% for r in restaurants %}
+	nccuplaceByID[{{r.id}}] = {
+		name : "{{r.name}}",
+		phone_number : "{{r.phone_number}}",
+		address : "{{r.address}}",
+		opentime : "{{r.opentime}}",
+		longitude : "{{r.longitude}}",
+		latitude : "{{r.latitude}}",
+
+	};
+	{% endfor %}
+	
+//圖層url及其屬性
+	var mbAttr = 'Map data &copy; <a href="http://openstreetmap.org">OpenStreetMap</a> contributors, ' +
+			'<a href="http://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, ' +
+			'Imagery © <a href="http://mapbox.com">Mapbox</a>',
+		mbUrl = 'https://api.tiles.mapbox.com/v4/{id}/{z}/{x}/{y}.png?access_token=pk.eyJ1IjoibWFwYm94IiwiYSI6ImNpandmbXliNDBjZWd2M2x6bDk3c2ZtOTkifQ._QA7i5Mpkd_m30IGElHziw';
+
+	var grayscale   = L.tileLayer(mbUrl, {id: 'mapbox.light', attribution: mbAttr}),
+		streets  = L.tileLayer(mbUrl, {id: 'mapbox.streets',   attribution: mbAttr}),
+		satellite  = L.tileLayer(mbUrl, {id: 'mapbox.satellite',   attribution: mbAttr}),
+		terrain = L.tileLayer('mapbox://styles/ms0680146/ciy1l4ggz005q2sp8a43vkoc2');
+	
+// create base layers and add the default ones to the map
+	var map = L.map('map', {
+		center: [24.986, 121.575],
+		zoom: 16,
+		layers: [streets]
+	});
+	
+// We’ll create two objects.
+// One will contain our base layers and one will contain our overlays
+	var baseLayers = {
+		"街道圖": streets,	
+		"衛星圖":satellite,
+		"Grayscale": grayscale,
+		"Terrain": terrain,
+
+	};
+//餐廳類(1-82)
+	var restaurant_arr = [];
+	for(i = 1 ; i < 83 ; i++){
+		var restaurant_marker = L.marker([nccuplaceByID[i].latitude, nccuplaceByID[i].longitude],{
+						icon:L.AwesomeMarkers.icon({
+						 icon:'fa-cutlery',
+						 prefix:'fa',
+						 markerColor:'orange',
+						})
+					}).bindPopup("店名"+":"+nccuplaceByID[i].name+'<br/>'+"電話"+':'+nccuplaceByID[i].phone_number+'<br/>'+"地址"+':'+nccuplaceByID[i].address+'<br/>'+"營業時間"+':'+nccuplaceByID[i].opentime+'<br/>');
+		restaurant_arr.push(restaurant_marker);
+	}
+	var restaurant = L.layerGroup(restaurant_arr);
+//店家類(83-119)
+	var store_arr = [];
+	for(i = 83 ; i < 120 ; i++){
+		var store_marker = L.marker([nccuplaceByID[i].latitude, nccuplaceByID[i].longitude],{
+						icon:L.AwesomeMarkers.icon({
+						 icon:'home',
+						 prefix:'glyphicon',
+						 markerColor:'cadetblue',
+						})
+					}).bindPopup("店名"+":"+nccuplaceByID[i].name+'<br/>'+"電話"+':'+nccuplaceByID[i].phone_number+'<br/>'+"地址"+':'+nccuplaceByID[i].address+'<br/>'+"營業時間"+':'+nccuplaceByID[i].opentime+'<br/>');
+		store_arr.push(store_marker);
+	}
+	var store = L.layerGroup(store_arr);
+//其他類(120-133)
+ 	var other_arr = [];
+	for(i = 120 ; i < 134 ; i++){
+		var other_marker = L.marker([nccuplaceByID[i].latitude, nccuplaceByID[i].longitude],{
+						icon:L.AwesomeMarkers.icon({
+						 icon:'star',
+						 prefix:'glyphicon',
+						 markerColor:'green',
+						})
+					}).bindPopup("店名"+":"+nccuplaceByID[i].name+'<br/>'+"電話"+':'+nccuplaceByID[i].phone_number+'<br/>'+"地址"+':'+nccuplaceByID[i].address+'<br/>'+"營業時間"+':'+nccuplaceByID[i].opentime+'<br/>');
+		other_arr.push(other_marker);
+	}
+	var other = L.layerGroup(other_arr);
+//飲料類(134-151)
+ 	var drink_arr = [];
+	for(i = 134 ; i < 152 ; i++){
+		var drink_marker = L.marker([nccuplaceByID[i].latitude, nccuplaceByID[i].longitude],{
+						icon:L.AwesomeMarkers.icon({
+						 icon:'coffee',
+						 prefix:'fa',
+						 markerColor:'blue',
+						})
+					}).bindPopup("店名"+":"+nccuplaceByID[i].name+'<br/>'+"電話"+':'+nccuplaceByID[i].phone_number+'<br/>'+"地址"+':'+nccuplaceByID[i].address+'<br/>'+"營業時間"+':'+nccuplaceByID[i].opentime+'<br/>');
+		drink_arr.push(drink_marker);
+	}
+	var drink = L.layerGroup(drink_arr);	
+//早餐類(152-157)
+ 	var breakfast_arr = [];
+	for(i = 152 ; i < 158 ; i++){
+		var breakfast_marker = L.marker([nccuplaceByID[i].latitude, nccuplaceByID[i].longitude],{
+						icon:L.AwesomeMarkers.icon({
+						 icon:'cutlery',
+						 prefix:'glyphicon',
+						 markerColor:'purple',
+						})
+					}).bindPopup("店名"+":"+nccuplaceByID[i].name+'<br/>'+"電話"+':'+nccuplaceByID[i].phone_number+'<br/>'+"地址"+':'+nccuplaceByID[i].address+'<br/>'+"營業時間"+':'+nccuplaceByID[i].opentime+'<br/>');
+		breakfast_arr.push(breakfast_marker);
+	}
+	var breakfast = L.layerGroup(breakfast_arr);
+// Create a Layers Control and add it to the map
+	var layerControl = L.control.layers(baseLayers).addTo(map);
+	layerControl.addOverlay(restaurant, "餐廳類");
+	layerControl.addOverlay(store, "店家類");
+	layerControl.addOverlay(drink, "飲料類");
+	layerControl.addOverlay(breakfast, "早餐類");
+	layerControl.addOverlay(other, "其他類(藥局、診所等)");
+
+	function myFunction(i){
+		if (i<83){
+			var restaurant_marker = L.marker([nccuplaceByID[i].latitude, nccuplaceByID[i].longitude],{
+						icon:L.AwesomeMarkers.icon({
+						 icon:'fa-cutlery',
+						 prefix:'fa',
+						 markerColor:'orange',
+						})
+					}).bindPopup("店名"+":"+nccuplaceByID[i].name+'<br/>'+"電話"+':'+nccuplaceByID[i].phone_number+'<br/>'+"地址"+':'+nccuplaceByID[i].address+'<br/>'+"營業時間"+':'+nccuplaceByID[i].opentime+'<br/>').addTo(map);
+			window.scrollTo(0, 0);		
+		}else if(i<120){
+			var store_marker = L.marker([nccuplaceByID[i].latitude, nccuplaceByID[i].longitude],{
+						icon:L.AwesomeMarkers.icon({
+						 icon:'home',
+						 prefix:'glyphicon',
+						 markerColor:'cadetblue',
+						})
+					}).bindPopup("店名"+":"+nccuplaceByID[i].name+'<br/>'+"電話"+':'+nccuplaceByID[i].phone_number+'<br/>'+"地址"+':'+nccuplaceByID[i].address+'<br/>'+"營業時間"+':'+nccuplaceByID[i].opentime+'<br/>').addTo(map);		
+			window.scrollTo(0, 0);	
+		}else if(i<134){
+			var other_marker = L.marker([nccuplaceByID[i].latitude, nccuplaceByID[i].longitude],{
+						icon:L.AwesomeMarkers.icon({
+						 icon:'star',
+						 prefix:'glyphicon',
+						 markerColor:'green',
+						})
+					}).bindPopup("店名"+":"+nccuplaceByID[i].name+'<br/>'+"電話"+':'+nccuplaceByID[i].phone_number+'<br/>'+"地址"+':'+nccuplaceByID[i].address+'<br/>'+"營業時間"+':'+nccuplaceByID[i].opentime+'<br/>').addTo(map);		
+			window.scrollTo(0, 0);			
+		}else if(i<152){
+			var drink_marker = L.marker([nccuplaceByID[i].latitude, nccuplaceByID[i].longitude],{
+						icon:L.AwesomeMarkers.icon({
+						 icon:'coffee',
+						 prefix:'fa',
+						 markerColor:'blue',
+						})
+					}).bindPopup("店名"+":"+nccuplaceByID[i].name+'<br/>'+"電話"+':'+nccuplaceByID[i].phone_number+'<br/>'+"地址"+':'+nccuplaceByID[i].address+'<br/>'+"營業時間"+':'+nccuplaceByID[i].opentime+'<br/>').addTo(map);				
+			window.scrollTo(0, 0);			
+		}else if(i<158){
+			var breakfast_marker = L.marker([nccuplaceByID[i].latitude, nccuplaceByID[i].longitude],{
+						icon:L.AwesomeMarkers.icon({
+						 icon:'cutlery',
+						 prefix:'glyphicon',
+						 markerColor:'purple',
+						})
+					}).bindPopup("店名"+":"+nccuplaceByID[i].name+'<br/>'+"電話"+':'+nccuplaceByID[i].phone_number+'<br/>'+"地址"+':'+nccuplaceByID[i].address+'<br/>'+"營業時間"+':'+nccuplaceByID[i].opentime+'<br/>').addTo(map);						
+			window.scrollTo(0, 0);			
+		}
+	}
+	
+
+</script>
+
+<br>
+<br>
+<div class="container-fluid" id='restaurant-add_and_serch'>
+	<div class='col-lg-6 jumbotron'>
+		<p>政大美食地圖!</p>
+		<p><a href='/add/'>增加新的餐廳</a></p>
+	</div>
+
+	<div class='col-lg-6 jumbotron'>	
+	<p>尋找政大美食!</p>	
+	<form action="" method="get">
+		<input type="text" name="q">
+		<input type="submit" value="Search">
+	</form>
+		<br>
+	</div>
+</div>
+
+<div class="container-fluid" id='restaurant-wrapper'>
+    {% for r in restaurants %} 
+         <div class='col-lg-7 restaurant-nodule jumbotron'>
+            <p>餐廳:<a href="https://www.facebook.com/sasebojapaneserestaurant/"><span class='name'>{{ r.name }}</span></a> </p>
+    		<p>電話: <span class='phone'>{{ r.phone_number }}</span></p>
+            <p>地址: <span class='address'>{{ r.address }}</span></p>
+            <p>營業時間: <span class='opentime'>{{ r.opentime }}</span></p>
+			<p><a href='/comment/{{ r.id }}'>評論</a></p>
+			<p><a href='/comment/{{ r.id }}'>菜單</a></p>
+            <p><button onclick="myFunction({{r.id}})">地圖</button></p>
+			<p style="text-align:right"><a href="#nccu">top</a></p>
+        </div>
+
+		{% for p in r.photo_set.all %}
+         <div class='col-lg-5 restaurant-nodule jumbotron'>
+           <img src="{{ UPLOAD_URL }}/store/{{p.storename.id}}.png" />
+		</div>
+
+		{% endfor %}
+	{% endfor %}
+</div>
+
+{%endblock%}
